@@ -33,12 +33,12 @@ public final class Metadata {
     private Metadata() {
     }
 
-    public static final String NAME = "HMCL";
-    public static final String FULL_NAME = "Hello Minecraft! Launcher";
+    public static final String NAME = "Dream Launcher";
+    public static final String FULL_NAME = "Dream Launcher for Minecraft";
     public static final String VERSION = System.getProperty("hmcl.version.override", JarUtils.getAttribute("hmcl.version", "@develop@"));
 
     /// Explicit Application User Model ID used for Windows taskbar grouping and pinning.
-    public static final String WINDOWS_APP_USER_MODEL_ID = "org.jackhuang.hmcl";
+    public static final String WINDOWS_APP_USER_MODEL_ID = "com.dreamserver.launcher";
 
     public static final String TITLE = NAME + " " + VERSION;
     public static final String FULL_TITLE = FULL_NAME + " v" + VERSION;

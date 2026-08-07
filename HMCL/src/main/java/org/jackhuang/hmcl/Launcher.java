@@ -35,6 +35,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.jackhuang.hmcl.game.HMCLCacheRepository;
+import org.jackhuang.hmcl.dream.DreamManifestService;
 import org.jackhuang.hmcl.setting.*;
 import org.jackhuang.hmcl.task.AsyncTaskExecutor;
 import org.jackhuang.hmcl.task.Schedulers;
@@ -140,10 +141,19 @@ public final class Launcher extends Application {
                 if (OperatingSystem.CURRENT_OS == OperatingSystem.MACOS)
                     Themes.applyNativeDarkMode(primaryStage);
 
-                UpdateChecker.init();
+                // A Dream build must never replace itself with an upstream HMCL update.
+                // Dream's signed update endpoint will opt in through this property once available.
+                if (Boolean.getBoolean("dream.updates.enabled")) {
+                    UpdateChecker.init();
+                }
 
                 WindowsNativeUtils.installWindowsAppUserModelRelaunchProperties(primaryStage);
                 primaryStage.show();
+
+                @Nullable String dreamManifestUrl = DreamManifestService.findManifestUrl(getParameters().getRaw());
+                if (dreamManifestUrl != null) {
+                    DreamManifestService.install(dreamManifestUrl);
+                }
             });
         } catch (Throwable e) {
             CRASH_REPORTER.uncaughtException(Thread.currentThread(), e);
